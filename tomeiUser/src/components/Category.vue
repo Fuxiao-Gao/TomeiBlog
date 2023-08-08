@@ -10,12 +10,11 @@
                         <router-link to="/blog" style="color: white">
                             <v-card-title>{{ card.title }}</v-card-title></router-link>
                         <v-card-subtitle class="pt-4">
-                            Number 10
+                            <!-- query using api function getUsers(id) with card.publisher_id as param-->
+                             {{ getUserName(card.publisher_id) }}
                         </v-card-subtitle>
                         <v-card-text>
-                            <div>
-                                Whitehaven Beach, Whitsunday Island, Whitsunday Islands
-                            </div>
+                            <v-row justify="end">user: </v-row>
                         </v-card-text>
                     </v-img>
 
@@ -34,8 +33,9 @@
 
 
 <script>
-import Navbar from '/home/tomeiUser/src/components/Navbar.vue';
+import Navbar from '@/components/Navbar.vue';
 import { listBlogs } from '@/api/blogs';
+import { getUsers } from '@/api/users';
 export default {
     name: 'Travel',
     props: ['categoryID'],
@@ -46,6 +46,7 @@ export default {
         mode: 'light',
         valid: false,
         cards: [],
+        users: {},
         queryParams: {
             categoryId: null,
         }
@@ -65,14 +66,33 @@ export default {
     methods: {
         getList() {
             listBlogs(this.queryParams).then(response => {
-                console.log(this.queryParams.categoryId)
                 this.cards = response.rows;
-                console.log(this.cards)
+                this.cards.forEach(card => {
+                    if (!this.users[card.publisher_id]) {  // If user not cached, fetch
+                        this.fetchUser(card.publisher_id);
+                    }
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        fetchUser(publisherId) {
+            getUsers(publisherId).then(response => {
+                this.$set(this.users, publisherId, response); // Cache the user
             }).catch((err) => {
                 console.log(err);
             });
         }
+    },
+    computed: {
+        getUserName() {
+            return (publisherId) => {
+                const user = this.users[publisherId];
+                return user ? user.name : 'Loading...';
+            }
+        }
     }
+
 }
 </script>
 
