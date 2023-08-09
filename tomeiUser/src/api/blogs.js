@@ -42,3 +42,27 @@ export function delBlogs(id) {
     method: 'delete'
   })
 }
+
+export function increLikeCount(id) {
+  console.log("id: " + id)
+  return request({
+    url: '/system/blogs/increLikeCount/' + id,
+    method: 'put'
+  })
+}
+
+export function increSaveCount(id) {
+  return request({
+    url: '/system/blogs/increSaveCount',
+    method: 'put'
+  })
+}
+
+export function increCommentCount(id) {
+  return request({
+    url: '/system/blogs/increCommentCount',
+    method: 'put'
+  })
+}
+
+

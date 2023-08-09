@@ -99,7 +99,7 @@
 
 
 <script>
-import Navbar from '/home/tomeiUser/src/components/Navbar.vue';
+import Navbar from '@/components/Navbar.vue';
 export default {
     name: 'blog',
     components: {

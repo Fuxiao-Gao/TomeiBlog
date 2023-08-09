@@ -9,21 +9,30 @@
 
                         <router-link to="/blog" style="color: white">
                             <v-card-title>{{ card.title }}</v-card-title></router-link>
-                        <v-card-subtitle class="pt-4">
-                            <!-- query using api function getUsers(id) with card.publisher_id as param-->
-                             {{ getUserName(card.publisher_id) }}
-                        </v-card-subtitle>
+                        <v-card-subtitle> Published by {{ publishers[card.publisherId] || 'Loading...' }}</v-card-subtitle>
                         <v-card-text>
-                            <v-row justify="end">user: </v-row>
+                            <v-row justify="end">
+                                <v-col> Created on {{ formatDate(card.createTime) }}</v-col>
+                                <v-col> Last Updated on {{ formatDate(card.updateTime) }}</v-col>
+                            </v-row>
                         </v-card-text>
                     </v-img>
 
                     <v-card-actions>
-                        <v-btn size="small" color="white" variant="text" icon="mdi-heart"></v-btn>
+                        <v-btn size="small" color="white" variant="text" @click="handleLike(card.id)">
+                            <v-icon left>mdi-heart</v-icon>
+                            {{ card.likeCount }}
+                        </v-btn>
 
-                        <v-btn size="small" color="white" variant="text" icon="mdi-bookmark"></v-btn>
+                        <v-btn size="small" color="white" variant="text" @click="handleSave(card.id)">
+                            <v-icon left>mdi-bookmark</v-icon>
+                            {{ card.saveCount }}
+                        </v-btn>
 
-                        <v-btn size="small" color="white" variant="text" icon="mdi-share-variant"></v-btn>
+                        <v-btn size="small" color="white" variant="text">
+                            <v-icon left>mdi-share-variant</v-icon>
+                            {{ card.commentCount }}
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -35,7 +44,10 @@
 <script>
 import Navbar from '@/components/Navbar.vue';
 import { listBlogs } from '@/api/blogs';
-import { getUsers } from '@/api/users';
+import { increLikeCount } from '@/api/blogs';
+import { increSaveCount } from '@/api/blogs';
+import { increCommentCount } from '@/api/blogs';
+import { getUserName } from '@/api/users';
 export default {
     name: 'Travel',
     props: ['categoryID'],
@@ -46,7 +58,7 @@ export default {
         mode: 'light',
         valid: false,
         cards: [],
-        users: {},
+        publishers: {},
         queryParams: {
             categoryId: null,
         }
@@ -58,41 +70,63 @@ export default {
     },
     created() {
         if (this.categoryID) {
-            console.log(this.categoryID);
             this.queryParams.categoryId = this.categoryID;
         }
-         this.getList();
+        this.getList();
     },
     methods: {
         getList() {
             listBlogs(this.queryParams).then(response => {
                 this.cards = response.rows;
                 this.cards.forEach(card => {
-                    if (!this.users[card.publisher_id]) {  // If user not cached, fetch
-                        this.fetchUser(card.publisher_id);
-                    }
+                    this.getPublisherName(card.publisherId);
                 });
+                console.log(this.publishers)
             }).catch((err) => {
                 console.log(err);
             });
         },
-        fetchUser(publisherId) {
-            getUsers(publisherId).then(response => {
-                this.$set(this.users, publisherId, response); // Cache the user
+        //call getUser api to get the publisher name from the user database
+        getPublisherName(publisherId) {
+            if (this.publishers[publisherId]) return;
+
+            getUserName(publisherId).then(response => {
+                //build a map to store the publisher name
+                this.publishers[publisherId] = response.msg;
+                //this.$set(this.publishers, publisherId, response.msg);
             }).catch((err) => {
                 console.log(err);
             });
-        }
-    },
-    computed: {
-        getUserName() {
-            return (publisherId) => {
-                const user = this.users[publisherId];
-                return user ? user.name : 'Loading...';
+        },
+        formatDate(datetime) {
+            if (datetime) {
+                return datetime.split(' ')[0];
             }
-        }
-    }
-
+            return '';
+        },
+        handleLike(id) {
+            increLikeCount(id).then(response => {
+                console.log("blogId:" + id);
+                this.getList();
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        handleSave(id) {
+            increSaveCount(id).then(response => {
+                this.getList();
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        handleComment(id) {
+            increCommentCount(id).then(response => {
+                this.getList();
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+    },
 }
 </script>
 
