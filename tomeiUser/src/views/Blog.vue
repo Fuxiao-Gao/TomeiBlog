@@ -7,7 +7,7 @@
             <v-sheet class="mx-auto mt-15" max-width="700" elevation="12" rounded="lg"
                 style="background-color:rgba(225, 225, 225, 0.4);">
                 <v-card-title class="text-center">
-                    <h1 class="display-1 font-weight-bold">{{ title }}</h1>
+                    <h1 class="display-1 font-weight-bold">{{ blog.title }}</h1>
                 </v-card-title>
                 <v-card-subtitle class="text-center">
                     <h3 class="font-weight-light">{{ publisherName }}</h3>
@@ -134,7 +134,10 @@ export default {
         getBlog() {
             // get a blog
             getBlogs(this.id).then((res) => {
+                console.log(res.data)
                 this.blog = res.data;
+                this.publisherId = this.blog.publisherId
+                this.getPublisherName();
             });
         },
         getDetail() {
@@ -146,7 +149,8 @@ export default {
         },
         //call getUser api to get the publisher name
         getPublisherName() {
-            this.publisherId = Number(this.blog);
+     
+            // this.publisherId = Number(this.blog.publisherId);
             getUserName(this.publisherId).then(response => {
                 console.log(this.publisherId)
                 this.publisherName = response.msg;
@@ -163,7 +167,7 @@ export default {
         // get the details of the blog
         this.getDetail();
         this.getBlog();
-        this.getPublisherName();
+        // this.getPublisherName();
 
     }
 }
