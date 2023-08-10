@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询users列表
+// get all the application users
 export function listUsers(query) {
   return request({
     url: '/system/users/list',
@@ -9,7 +9,7 @@ export function listUsers(query) {
   })
 }
 
-// 查询users详细
+// get the application user
 export function getUsers(id) {
   return request({
     url: '/system/users/' + id,
@@ -17,7 +17,7 @@ export function getUsers(id) {
   })
 }
 
-// 新增users
+// add user
 export function addUsers(data) {
   return request({
     url: '/system/users',
@@ -26,7 +26,7 @@ export function addUsers(data) {
   })
 }
 
-// 修改users
+// update user
 export function updateUsers(data) {
   return request({
     url: '/system/users',
@@ -35,7 +35,7 @@ export function updateUsers(data) {
   })
 }
 
-// 删除users
+// delete user
 export function delUsers(id) {
   return request({
     url: '/system/users/' + id,

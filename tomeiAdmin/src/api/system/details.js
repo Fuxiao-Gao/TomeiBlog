@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询details列表
+// list all the user details
 export function listDetails(query) {
   return request({
     url: '/system/details/list',
@@ -9,7 +9,7 @@ export function listDetails(query) {
   })
 }
 
-// 查询details详细
+// get the user details
 export function getDetails(id) {
   return request({
     url: '/system/details/' + id,
@@ -17,7 +17,7 @@ export function getDetails(id) {
   })
 }
 
-// 新增details
+// add details
 export function addDetails(data) {
   return request({
     url: '/system/details',
@@ -26,7 +26,7 @@ export function addDetails(data) {
   })
 }
 
-// 修改details
+// update details
 export function updateDetails(data) {
   return request({
     url: '/system/details',
@@ -35,7 +35,7 @@ export function updateDetails(data) {
   })
 }
 
-// 删除details
+// delete details
 export function delDetails(id) {
   return request({
     url: '/system/details/' + id,

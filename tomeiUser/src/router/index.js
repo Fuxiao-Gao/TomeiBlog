@@ -60,9 +60,9 @@ const routes = [
         component: () => import('@/views/Messages.vue'),
       },
       {
-        path: '/blog',
+        path: '/blog/:id',
         name: 'Blog',
-        component: () => import('@/views/Blog.vue'),
+        component: () => import('@/views/Blog.vue')
       }
     ],
   },

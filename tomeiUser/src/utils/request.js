@@ -2,17 +2,18 @@ import axios from 'axios'
 import store from '@/store'
 import { getToken } from './auth'
 import cache from '@/plugins/cache'
-import { ElNotification,ElMessageBox, ElMessage, ElLoading } from 'element-plus'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
 
 export let isRelogin = { show: false };
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create axios instance
 const request = axios.create({
-  baseURL: 'http://192.168.169.182:8080/', 
+  baseURL: 'http://192.168.169.182:8080/',
   timeout: 10000
 })
-
 
 //intercept the request and handle it before it being sent, specifically add token to it
 request.interceptors.request.use(config => {
@@ -81,28 +82,55 @@ request.interceptors.response.use(res => {
   }
   if (code === 401) {
     if (!isRelogin.show) {
+      console.log('isRelogin: ' + JSON.stringify(res.data))
       isRelogin.show = true;
-      ElMessageBox.confirm('Your session is expired.', 'System Warning', { confirmButtonText: 'relogin', cancelButtonText: 'stay', type: 'warning' }).then(() => {
-        // user chose to relogin
-        isRelogin.show = false;
-        // call the LogOut method in store/user.js
-        store.dispatch('LogOut').then(() => {
-          location.href = '/';
+      Swal.fire({
+        title: 'System Warning',
+        text: "Your session is expired, please relogin",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5C6BC0',
+        cancelButtonColor: '#80CBC4',
+        confirmButtonText: 'relogin'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //log out and redirect to the login
+          isRelogin.show = false;
+          store.dispatch('LogOut').then(() => {
+          location.href = '/login';
         })
-      }).catch(() => {
-        // user chose to stay
-        isRelogin.show = false;
-      });
+          // Swal.fire(
+          //   'Deleted!',
+          //   'Your file has been deleted.',
+          //   'success'
+          // )
+        }
+      })
     }
     return Promise.reject('your session is expired');
   } else if (code === 500) {
-    ElMessage({ message: msg, type: 'error' })
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: msg,
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
     return Promise.reject(new Error(msg))
   } else if (code === 601) {
-    ElMessage({ message: msg, type: 'warning' })
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: msg,
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
     return Promise.reject('error')
   } else if (code !== 200) {
-    ElNotification.error({ title: msg })
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: msg,
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
     return Promise.reject('error')
   } else {
     // if the response is 200, then return the data
@@ -120,7 +148,12 @@ request.interceptors.response.use(res => {
     } else if (message.includes("Request failed with status code")) {
       message = "system interface" + message.substr(message.length - 3) + "error";
     }
-    ElMessage({ message: message, type: 'error', duration: 5 * 1000 })
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: message,
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
     return Promise.reject(error)
   }
 )

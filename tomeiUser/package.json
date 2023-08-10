@@ -18,6 +18,7 @@
     "masonry-layout": "^4.2.2",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
+    "sweetalert2": "^11.7.21",
     "vue": "^3.2.0",
     "vue-masonry": "^0.16.0",
     "vue-router": "^4.2.3",

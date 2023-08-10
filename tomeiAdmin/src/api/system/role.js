@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询角色列表
+// query role list
 export function listRole(query) {
   return request({
     url: '/system/role/list',
@@ -9,7 +9,7 @@ export function listRole(query) {
   })
 }
 
-// 查询角色详细
+// query role details
 export function getRole(roleId) {
   return request({
     url: '/system/role/' + roleId,
@@ -17,7 +17,7 @@ export function getRole(roleId) {
   })
 }
 
-// 新增角色
+// add role
 export function addRole(data) {
   return request({
     url: '/system/role',
@@ -26,7 +26,7 @@ export function addRole(data) {
   })
 }
 
-// 修改角色
+// update role
 export function updateRole(data) {
   return request({
     url: '/system/role',
@@ -35,7 +35,7 @@ export function updateRole(data) {
   })
 }
 
-// 角色数据权限
+// Role data permissions
 export function dataScope(data) {
   return request({
     url: '/system/role/dataScope',
@@ -44,7 +44,7 @@ export function dataScope(data) {
   })
 }
 
-// 角色状态修改
+// change role status
 export function changeRoleStatus(roleId, status) {
   const data = {
     roleId,
@@ -57,7 +57,7 @@ export function changeRoleStatus(roleId, status) {
   })
 }
 
-// 删除角色
+// delete role
 export function delRole(roleId) {
   return request({
     url: '/system/role/' + roleId,
@@ -65,7 +65,7 @@ export function delRole(roleId) {
   })
 }
 
-// 查询角色已授权用户列表
+// Query the list of authorized users for a role
 export function allocatedUserList(query) {
   return request({
     url: '/system/role/authUser/allocatedList',
@@ -74,7 +74,7 @@ export function allocatedUserList(query) {
   })
 }
 
-// 查询角色未授权用户列表
+// Query the list of unauthorized users for a role
 export function unallocatedUserList(query) {
   return request({
     url: '/system/role/authUser/unallocatedList',
@@ -83,7 +83,7 @@ export function unallocatedUserList(query) {
   })
 }
 
-// 取消用户授权角色
+// Cancel user authorization roles
 export function authUserCancel(data) {
   return request({
     url: '/system/role/authUser/cancel',
@@ -92,7 +92,7 @@ export function authUserCancel(data) {
   })
 }
 
-// 批量取消用户授权角色
+// Batch cancel user authorization roles
 export function authUserCancelAll(data) {
   return request({
     url: '/system/role/authUser/cancelAll',
@@ -101,7 +101,7 @@ export function authUserCancelAll(data) {
   })
 }
 
-// 授权用户选择
+// select all authorized users
 export function authUserSelectAll(data) {
   return request({
     url: '/system/role/authUser/selectAll',
@@ -110,7 +110,7 @@ export function authUserSelectAll(data) {
   })
 }
 
-// 根据角色ID查询部门树结构
+// Query Department Tree Structure by Role ID
 export function deptTreeSelect(roleId) {
   return request({
     url: '/system/role/deptTree/' + roleId,

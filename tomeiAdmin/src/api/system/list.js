@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询list列表
+
 export function listList(query) {
   return request({
     url: '/system/list/list',
@@ -9,7 +9,7 @@ export function listList(query) {
   })
 }
 
-// 查询list详细
+// get list
 export function getList(followerId) {
   return request({
     url: '/system/list/' + followerId,
@@ -17,7 +17,7 @@ export function getList(followerId) {
   })
 }
 
-// 新增list
+// add list
 export function addList(data) {
   return request({
     url: '/system/list',
@@ -26,7 +26,7 @@ export function addList(data) {
   })
 }
 
-// 修改list
+// update list
 export function updateList(data) {
   return request({
     url: '/system/list',
@@ -35,7 +35,7 @@ export function updateList(data) {
   })
 }
 
-// 删除list
+// delete list
 export function delList(followerId) {
   return request({
     url: '/system/list/' + followerId,

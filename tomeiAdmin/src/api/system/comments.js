@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询comments列表
+
 export function listComments(query) {
   return request({
     url: '/system/comments/list',
@@ -9,7 +9,7 @@ export function listComments(query) {
   })
 }
 
-// 查询comments详细
+
 export function getComments(id) {
   return request({
     url: '/system/comments/' + id,
@@ -17,7 +17,7 @@ export function getComments(id) {
   })
 }
 
-// 新增comments
+
 export function addComments(data) {
   return request({
     url: '/system/comments',
@@ -26,7 +26,7 @@ export function addComments(data) {
   })
 }
 
-// 修改comments
+
 export function updateComments(data) {
   return request({
     url: '/system/comments',
@@ -35,7 +35,7 @@ export function updateComments(data) {
   })
 }
 
-// 删除comments
+
 export function delComments(id) {
   return request({
     url: '/system/comments/' + id,

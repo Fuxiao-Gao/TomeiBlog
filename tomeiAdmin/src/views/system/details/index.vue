@@ -99,7 +99,7 @@
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
         <el-form-item label="cover_pic" prop="coverPic">
-          <image-upload v-model="form.coverPic"/>
+          <el-input v-model="form.coverPic"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

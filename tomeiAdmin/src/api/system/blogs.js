@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询blogs列表
+
 export function listBlogs(query) {
   return request({
     url: '/system/blogs/list',
@@ -9,7 +9,7 @@ export function listBlogs(query) {
   })
 }
 
-// 查询blogs详细
+
 export function getBlogs(id) {
   return request({
     url: '/system/blogs/' + id,
@@ -17,7 +17,7 @@ export function getBlogs(id) {
   })
 }
 
-// 新增blogs
+
 export function addBlogs(data) {
   return request({
     url: '/system/blogs',
@@ -26,7 +26,7 @@ export function addBlogs(data) {
   })
 }
 
-// 修改blogs
+
 export function updateBlogs(data) {
   return request({
     url: '/system/blogs',
@@ -35,7 +35,7 @@ export function updateBlogs(data) {
   })
 }
 
-// 删除blogs
+
 export function delBlogs(id) {
   return request({
     url: '/system/blogs/' + id,

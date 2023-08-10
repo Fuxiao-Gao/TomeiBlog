@@ -7,7 +7,8 @@
                     <v-img :src="card.src" class="align-end"
                         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="200px" cover>
 
-                        <router-link to="/blog" style="color: white">
+                        <!-- when clicked on the card title, the user is bring to the blog associated with that title -->
+                        <router-link :to="`/blog/${card.id}`" style="color: white">
                             <v-card-title>{{ card.title }}</v-card-title></router-link>
                         <v-card-subtitle> Published by {{ publishers[card.publisherId] || 'Loading...' }}</v-card-subtitle>
                         <v-card-text>
@@ -88,6 +89,7 @@ export default {
         },
         //call getUser api to get the publisher name from the user database
         getPublisherName(publisherId) {
+            // if the publisher name is already in the map, return
             if (this.publishers[publisherId]) return;
 
             getUserName(publisherId).then(response => {

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 获取服务信息
+// get server info
 export function getServer() {
   return request({
     url: '/monitor/server',

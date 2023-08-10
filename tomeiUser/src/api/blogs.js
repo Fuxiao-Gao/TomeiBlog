@@ -44,7 +44,6 @@ export function delBlogs(id) {
 }
 
 export function increLikeCount(id) {
-  console.log("id: " + id)
   return request({
     url: '/system/blogs/increLikeCount/' + id,
     method: 'put'
@@ -53,7 +52,7 @@ export function increLikeCount(id) {
 
 export function increSaveCount(id) {
   return request({
-    url: '/system/blogs/increSaveCount',
+    url: '/system/blogs/increSaveCount/'+ id,
     method: 'put'
   })
 }

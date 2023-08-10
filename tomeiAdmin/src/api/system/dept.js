@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询部门列表
+// list all the departments
 export function listDept(query) {
   return request({
     url: '/system/dept/list',
@@ -9,7 +9,7 @@ export function listDept(query) {
   })
 }
 
-// 查询部门列表（排除节点）
+// list all the departments (exclude child)
 export function listDeptExcludeChild(deptId) {
   return request({
     url: '/system/dept/list/exclude/' + deptId,
@@ -17,7 +17,7 @@ export function listDeptExcludeChild(deptId) {
   })
 }
 
-// 查询部门详细
+// get the department
 export function getDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,
@@ -25,7 +25,7 @@ export function getDept(deptId) {
   })
 }
 
-// 新增部门
+// add the department
 export function addDept(data) {
   return request({
     url: '/system/dept',
@@ -34,7 +34,7 @@ export function addDept(data) {
   })
 }
 
-// 修改部门
+// update the department
 export function updateDept(data) {
   return request({
     url: '/system/dept',
@@ -43,7 +43,7 @@ export function updateDept(data) {
   })
 }
 
-// 删除部门
+// delete the department
 export function delDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,
