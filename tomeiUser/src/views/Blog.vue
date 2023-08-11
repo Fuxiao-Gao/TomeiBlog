@@ -149,7 +149,6 @@ export default {
         },
         //call getUser api to get the publisher name
         getPublisherName() {
-     
             // this.publisherId = Number(this.blog.publisherId);
             getUserName(this.publisherId).then(response => {
                 console.log(this.publisherId)

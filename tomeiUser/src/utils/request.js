@@ -21,10 +21,7 @@ request.interceptors.request.use(config => {
   const isToken = (config.headers || {}).isToken === false
   // whether need to prevent the data from being resubmitted
   const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
-  console.log('isToken: ' + isToken)
-  console.log(getToken())
   if (getToken() && !isToken) {
-    console.log('adding token to the request')
     config.headers['Authorization'] = 'Bearer ' + getToken() // let every request carry token
   }
   // converts the params into an url query and aappend it to the original url
@@ -34,7 +31,7 @@ request.interceptors.request.use(config => {
     config.params = {};
     config.url = url;
   }
-  console.log('config: ' + JSON.stringify(config))
+  // console.log('config: ' + JSON.stringify(config))
   //post or put request
   if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
     const requestObj = {
@@ -82,7 +79,7 @@ request.interceptors.response.use(res => {
   }
   if (code === 401) {
     if (!isRelogin.show) {
-      console.log('isRelogin: ' + JSON.stringify(res.data))
+      // console.log('isRelogin: ' + JSON.stringify(res.data))
       isRelogin.show = true;
       Swal.fire({
         title: 'System Warning',
@@ -134,7 +131,7 @@ request.interceptors.response.use(res => {
     return Promise.reject('error')
   } else {
     // if the response is 200, then return the data
-    console.log('response: ' + JSON.stringify(res.data))
+    // console.log('response: ' + JSON.stringify(res.data))
     return res.data
   }
 },

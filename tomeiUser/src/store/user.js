@@ -5,6 +5,7 @@ const user = {
     state: {
         token: getToken(),
         name: '',
+        id: null,
         avatar: '',
     },
 
@@ -15,6 +16,9 @@ const user = {
         SET_NAME: (state, name) => {
             state.name = name
         },
+        SET_ID: (state, id) => {
+            state.id = id
+        },
         SET_AVATAR: (state, avatar) => {
             state.avatar = avatar
         },
@@ -23,13 +27,15 @@ const user = {
         // login
         Login({ commit }, userInfo) {
             const username = userInfo.username.trim()
-            console.log('username in store: ' + username)
             const password = userInfo.password
             return new Promise((resolve, reject) => {
                 login(username, password).then(res => {
-                    console.log('setting token')
-                    setToken(res.token)
-                    commit('SET_TOKEN', res.token)
+                    setToken(res.appUser.token)
+                    commit('SET_TOKEN', res.appUser.token)
+                    commit('SET_NAME', res.appUser.username)
+                    //console.log("this user is" + JSON.stringify(res))
+                    //console.log("this user id is " + res.appUser.id)
+                    commit('SET_ID', res.appUser.id)
                     resolve()
                 }).catch(error => {
                     reject(error)
@@ -42,14 +48,11 @@ const user = {
             return new Promise((resolve, reject) => {
                 getInfo().then(res => {
                     const user = res.user
-                    const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/tomei/tomei3.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
-                    // if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-                    //     commit('SET_ROLES', res.roles)
-                    //     commit('SET_PERMISSIONS', res.permissions)
-                    // } else {
-                    //     commit('SET_ROLES', ['ROLE_DEFAULT'])
-                    // }
-                    commit('SET_NAME', user.userName)
+                    console.log(res.user)
+                    const avatar = (user.profilePic == "" || user.avatar == null) ? require("@/assets/tomei/tomei3.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
+                    commit('SET_NAME', user.username)
+                    console.log("this userid is"+ user.id)
+                    commit('SET_ID', user.id)
                     commit('SET_AVATAR', avatar)
                     resolve(res)
                 }).catch(error => {

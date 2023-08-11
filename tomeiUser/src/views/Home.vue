@@ -1,6 +1,7 @@
 <template>
   <v-parallax src="../assets/tomei/tomei10.jpg" height="1000">
     <div class="home">
+      <!-- navbar -->
       <v-container fluid class="navbar">
         <v-row>
           <v-col cols="3" class="d-flex align-center pa-0 ma-0">
@@ -38,23 +39,53 @@
         </v-row>
       </v-container>
 
-      <v-container class="home-content mt-10">
+      <!-- content -->
+      <v-container class=" blog-intro fill-height d-flex justify-center">
         <v-row>
           <v-col cols="12" md="6" class="d-flex align-center justify-center">
             <div class="text-center">
               <h1 class="display-3 font-weight-bold">TOMEI BLOG</h1>
-              <h3 class="font-weight-light">A place to share your stories</h3>
+              <h3 class="font-weight-light">Through Translucent Tales, We Unveil Souls.</h3>
               <v-btn color="blue-lighten-5" class="mt-5" to="/register">Get Started</v-btn>
             </div>
           </v-col>
 
           <v-col cols="12" md="6">
-            <v-carousel hide-delimiters>
-              <v-carousel-item v-for="(img, i) in imgs" :key="i" :src="img.src" height="500px" contain></v-carousel-item>
+            <v-carousel v-if="cards.length" :continuous="false" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-square"
+              height="300">
+              <!-- key directive helps vue optimizing its rendering process -->
+              <v-carousel-item v-for="card in cards" :key="card.id" contain>
+                <v-card variant="tonal" class="mx-auto">
+                  <v-img :src=covers[card.id] class="align-end"
+                    gradient="to top right, rgba(173,216,230,0.8), rgba(58,128,227,0.6)" height="200px" cover>
+                    <router-link :to="`/blog/${card.id}`" style="color: white">
+                      <v-card-title>{{ card.title }}</v-card-title></router-link>
+                  </v-img>
+                  <v-card-actions>
+                    <v-btn size="small" color="white" variant="text" @click="handleLike(card.id)">
+                      <v-icon left>mdi-heart</v-icon>
+                      {{ card.likeCount }}
+                    </v-btn>
+
+                    <v-btn size="small" color="white" variant="text" @click="handleSave(card.id)">
+                      <v-icon left>mdi-bookmark</v-icon>
+                      {{ card.saveCount }}
+                    </v-btn>
+
+                    <v-btn size="small" color="white" variant="text">
+                      <v-icon left>mdi-share-variant</v-icon>
+                      {{ card.commentCount }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-carousel-item>
             </v-carousel>
           </v-col>
+
         </v-row>
+
       </v-container>
+
     </div>
   </v-parallax>
 </template>
@@ -63,6 +94,8 @@
 import router from '@/router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { listBlogs } from '@/api/blogs';
+import { getDetails } from '@/api/details.js';
 export default {
   name: 'Home',
   setup() {
@@ -71,7 +104,7 @@ export default {
     const token = computed(() => store.state.user.token);
 
     const buttonText = computed(() => {
-      return token.value? 'Logout': 'Login';
+      return token.value ? 'Logout' : 'Login';
     });
 
     const handlebtn = () => {
@@ -93,26 +126,46 @@ export default {
   data: () => ({
     mode: 'light',
     valid: false,
+    cards: [],
+    covers: [],
     PersonalItems: [
       { title: 'My WorkSpace', link: "/myworkspace" },
       { title: 'Messages', link: "/messages" },
     ],
-    imgs: [
-      {
-        src: "https://github.com/Fuxiao-Gao/TomeiBlog_front/blob/main/src/assets/tomei/tomei1.jpg",
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-      },
-      // add more image paths here
-    ]
+    queryPartams: {
+      pageNum: 1,
+      pageSize: 8,
+      publisherId: null,
+      title: null,
+      categoryId: null,
+      likeCount: null,
+      commentCount: null,
+      saveCount: null,
+      createTime: null,
+      updateTime: null
+    }
   }),
+  created() {
+    this.listBlogs();
+  },
+  methods: {
+    listBlogs() {
+      listBlogs(this.queryParams).then(response => {
+        this.cards = response.rows;
+
+        //get cover image for each card
+        this.cards.forEach(card => {
+          getDetails(card.id).then(response => {
+            this.covers[card.id] = response.data.coverPic;
+          }).catch((err) => {
+            console.log(err);
+          });
+        })
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+  }
 }
 </script>
 
@@ -138,6 +191,10 @@ export default {
   /*   background-image: url('path-to-your-image.jpg');
   background-size: cover;
   background-position: center; */
+}
+
+.blog-intro {
+  margin-top: 250px;
 }
 </style>
 

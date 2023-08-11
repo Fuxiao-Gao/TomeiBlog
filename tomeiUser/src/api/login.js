@@ -3,7 +3,6 @@ import request from '@/utils/request'
 
 // login method
 export function login(username, password) {
-    console.log('doing login in api/login.js')
     const data = {
         username,
         password,

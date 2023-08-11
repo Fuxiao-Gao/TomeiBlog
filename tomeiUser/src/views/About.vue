@@ -3,7 +3,7 @@
     <div class="about">
         <div class="about-content">
             <v-card class="mx-auto text-black" max-width="700" variant="tonal">
-                <template v-slot:title>
+                <template v-slot:title >
                     Tomei Blog
                 </template>
 
@@ -12,16 +12,17 @@
                 </template>
 
                 <template v-slot:text>
-                    <p class="font-weight-light">
-                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est
-                        labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque
-                        porro libero rerum unde voluptatem!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est
-                        labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque
-                        porro libero rerum unde voluptatem!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est
-                        labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque
-                        porro libero rerum unde voluptatem!
+                    <p class="font-weight-normal my-3">
+                        At the heart of our digital space lies the essence of "tomei" — the Japanese art of translucency. 
+                        Just as "tomei" beautifully signifies clarity without opacity, our blog seeks to weave stories, thoughts, 
+                        and ideas in a manner that's both transparent and elegant. The aesthetic of our website, deeply inspired by 
+                        the unique style of 透明愛好家 on YouTube, serves as a tranquil reflection of the purity of expression we aim to encapsulate. 
+                        Every visual component you encounter here is designed to be translucent, mirroring the idea that while our thoughts and emotions 
+                        have substance, they are free from obstructions, offering a crystal-clear view into the soul of the content. 
+                        This platform is not just a mere compilation of articles; it's a celebration of clarity, simplicity, and the delicate balance 
+                        between revelation and concealment. As you traverse through our tomei-inspired pages, we invite you to embrace the serenity and 
+                        candidness that each piece has to offer, and hope that this space becomes a sanctuary for those seeking genuine, transparent 
+                        narratives in the vast expanse of the digital world.
                     </p>
                 </template>
                 <v-card-actions>

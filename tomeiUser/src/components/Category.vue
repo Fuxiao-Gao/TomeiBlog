@@ -1,10 +1,10 @@
 <template>
-    <v-container class="blogs-content mt-5">
+    <v-container class="blogs-content">
         <v-row no-gutters style="width: 100%;">
-            <v-col class="ma-1 pa-1" v-for="card in cards" :key="card.title">
+            <v-col class="ma-1 pa-1" v-for="card in cards" :key="card.id">
 
                 <v-card variant="tonal" class="mx-auto">
-                    <v-img :src="card.src" class="align-end"
+                    <v-img :src=covers[card.id] class="align-end"
                         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="200px" cover>
 
                         <!-- when clicked on the card title, the user is bring to the blog associated with that title -->
@@ -38,6 +38,10 @@
                 </v-card>
             </v-col>
         </v-row>
+        <!-- <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+            @pagination="getList" /> -->
+        <v-pagination v-model="queryParams.pageNum" :length="Math.ceil(total / queryParams.pageSize)"
+            rounded="0"></v-pagination>
     </v-container>
 </template>
 
@@ -49,6 +53,7 @@ import { increLikeCount } from '@/api/blogs';
 import { increSaveCount } from '@/api/blogs';
 import { increCommentCount } from '@/api/blogs';
 import { getUserName } from '@/api/users';
+import { getDetails } from '@/api/details.js';
 export default {
     name: 'Travel',
     props: ['categoryID'],
@@ -60,14 +65,34 @@ export default {
         valid: false,
         cards: [],
         publishers: {},
+        covers: {},
+        total: 0,
+        loading: true,
         queryParams: {
+            pageNum: 1,
+            pageSize: 12,
+            publisherId: null,
+            title: null,
             categoryId: null,
-        }
+            likeCount: null,
+            commentCount: null,
+            saveCount: null,
+            createTime: null,
+            updateTime: null
+        },
     }),
     watch: {
         categoryID(newCategoryId) {
             this.queryParams.categoryId = newCategoryId;
         },
+        'queryParams.pageNum': {
+            handler: function (newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    this.getList();
+                }
+            },
+            immediate: true
+        }
     },
     created() {
         if (this.categoryID) {
@@ -79,9 +104,21 @@ export default {
         getList() {
             listBlogs(this.queryParams).then(response => {
                 this.cards = response.rows;
+                this.total = response.total;
+                this.loading = false;
+                // get publisherName for eachcard
                 this.cards.forEach(card => {
                     this.getPublisherName(card.publisherId);
                 });
+                //get cover image for each card
+                this.cards.forEach(card => {
+                    getDetails(card.id).then(response => {
+                        this.covers[card.id] = response.data.coverPic;
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+
+                })
                 console.log(this.publishers)
             }).catch((err) => {
                 console.log(err);
