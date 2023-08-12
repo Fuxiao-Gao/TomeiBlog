@@ -17,6 +17,15 @@ export function getBlogs(id) {
   })
 }
 
+// add to both blog and the blog details
+export function addAll(data) {
+  return request({
+    url: '/system/blogs/addAll',
+    method: 'post',
+    data: data
+  })
+}
+
 
 export function addBlogs(data) {
   return request({

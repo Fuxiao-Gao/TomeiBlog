@@ -3,15 +3,15 @@ import store from '@/store'
 import { getToken } from './auth'
 import cache from '@/plugins/cache'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
 import 'sweetalert2/src/sweetalert2.scss'
+
 
 export let isRelogin = { show: false };
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create axios instance
 const request = axios.create({
-  baseURL: 'http://192.168.169.182:8080/',
+  baseURL: 'http://192.168.3.247:8080/',
   timeout: 10000
 })
 
