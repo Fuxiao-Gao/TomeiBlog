@@ -52,17 +52,19 @@ export function delBlogs(id) {
   })
 }
 
-export function increLikeCount(id) {
+export function increLikeCount(data) {
   return request({
-    url: '/system/blogs/increLikeCount/' + id,
-    method: 'put'
+    url: '/system/blogs/increLikeCount',
+    method: 'put',
+    data: data
   })
 }
 
-export function increSaveCount(id) {
+export function increSaveCount(data) {
   return request({
-    url: '/system/blogs/increSaveCount/'+ id,
-    method: 'put'
+    url: '/system/blogs/increSaveCount',
+    method: 'put',
+    data: data
   })
 }
 

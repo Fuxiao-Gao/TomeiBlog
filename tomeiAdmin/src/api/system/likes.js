@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// list all the likes
+// 查询likes列表
 export function listLikes(query) {
   return request({
     url: '/system/likes/list',
@@ -9,15 +9,15 @@ export function listLikes(query) {
   })
 }
 
-// get likes details
-export function getLikes(userId) {
+// 查询likes详细
+export function getLikes(id) {
   return request({
-    url: '/system/likes/' + userId,
+    url: '/system/likes/' + id,
     method: 'get'
   })
 }
 
-// add likes
+// 新增likes
 export function addLikes(data) {
   return request({
     url: '/system/likes',
@@ -26,7 +26,7 @@ export function addLikes(data) {
   })
 }
 
-// update likes
+// 修改likes
 export function updateLikes(data) {
   return request({
     url: '/system/likes',
@@ -35,10 +35,10 @@ export function updateLikes(data) {
   })
 }
 
-// delete likes
-export function delLikes(userId) {
+// 删除likes
+export function delLikes(id) {
   return request({
-    url: '/system/likes/' + userId,
+    url: '/system/likes/' + id,
     method: 'delete'
   })
 }

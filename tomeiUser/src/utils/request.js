@@ -11,7 +11,7 @@ export let isRelogin = { show: false };
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create axios instance
 const request = axios.create({
-  baseURL: 'http://192.168.3.247:8080/',
+  baseURL: 'http://192.168.169.182:8080/',
   timeout: 10000
 })
 
@@ -25,13 +25,15 @@ request.interceptors.request.use(config => {
     config.headers['Authorization'] = 'Bearer ' + getToken() // let every request carry token
   }
   // converts the params into an url query and aappend it to the original url
+  // console.log('config.method: ' + config.method)
+  // console.log('config.params: ' + JSON.stringify(config.params))
   if (config.method === 'get' && config.params) {
     let url = config.url + '?' + transParams(config.params);
     url = url.slice(0, -1);
     config.params = {};
     config.url = url;
   }
-  // console.log('config: ' + JSON.stringify(config))
+
   //post or put request
   if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
     const requestObj = {
@@ -39,6 +41,7 @@ request.interceptors.request.use(config => {
       data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
       time: new Date().getTime()
     }
+    console.log('requestObj: ' + JSON.stringify(requestObj))
     const sessionObj = cache.session.getJSON('sessionObj')
     if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
       // if sessionObj is empty, then store the requestObj
@@ -96,11 +99,6 @@ request.interceptors.response.use(res => {
           store.dispatch('LogOut').then(() => {
           location.href = '/login';
         })
-          // Swal.fire(
-          //   'Deleted!',
-          //   'Your file has been deleted.',
-          //   'success'
-          // )
         }
       })
     }

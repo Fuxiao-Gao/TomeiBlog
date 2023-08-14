@@ -17,6 +17,13 @@ export function getComments(id) {
   })
 }
 
+export function increCommentsLike(data) {
+  return request({
+    url: '/system/comments/increLikeCount',
+    method: 'put',
+    data: data
+  })
+}
 
 export function addComments(data) {
   return request({

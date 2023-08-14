@@ -17,6 +17,13 @@ export function getLikes(userId) {
   })
 }
 
+export function checkLikes(query) {
+  return request({
+    url: '/system/likes/check',
+    method: 'get',
+    data: query
+  })
+}
 
 export function addLikes(data) {
   return request({

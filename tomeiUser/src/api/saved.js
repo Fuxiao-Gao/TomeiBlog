@@ -17,6 +17,13 @@ export function getSaved(userId) {
   })
 }
 
+export function checkSaved(data) {
+  return request({
+    url: '/system/saved/check',
+    method: 'post',
+    data: data
+  })
+}
 
 export function addSaved(data) {
   return request({

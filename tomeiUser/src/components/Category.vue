@@ -54,6 +54,7 @@ import { increSaveCount } from '@/api/blogs';
 import { increCommentCount } from '@/api/blogs';
 import { getUserName } from '@/api/users';
 import { getDetails } from '@/api/details.js';
+
 export default {
     name: 'Travel',
     props: ['categoryID'],

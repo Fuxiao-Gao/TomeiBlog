@@ -34,7 +34,7 @@ const user = {
                     commit('SET_TOKEN', res.appUser.token)
                     commit('SET_NAME', res.appUser.username)
                     //console.log("this user is" + JSON.stringify(res))
-                    //console.log("this user id is " + res.appUser.id)
+                    console.log("this user id is " + res.appUser.id)
                     commit('SET_ID', res.appUser.id)
                     resolve()
                 }).catch(error => {
@@ -79,6 +79,8 @@ const user = {
         FedLogOut({ commit }) {
             return new Promise(resolve => {
                 commit('SET_TOKEN', '')
+                commit('SET_ID', null)
+                commit('SET_NAME', '')
                 removeToken()
                 resolve()
             })
