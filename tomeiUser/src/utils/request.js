@@ -11,7 +11,7 @@ export let isRelogin = { show: false };
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create axios instance
 const request = axios.create({
-  baseURL: 'http://192.168.169.182:8080/',
+  baseURL: 'http://192.168.3.247:8080/',
   timeout: 10000
 })
 
@@ -41,7 +41,7 @@ request.interceptors.request.use(config => {
       data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
       time: new Date().getTime()
     }
-    console.log('requestObj: ' + JSON.stringify(requestObj))
+    //console.log('requestObj: ' + JSON.stringify(requestObj))
     const sessionObj = cache.session.getJSON('sessionObj')
     if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
       // if sessionObj is empty, then store the requestObj
@@ -73,7 +73,7 @@ request.interceptors.request.use(config => {
 //response interception
 //display different error message corresponding to 404/401/500
 request.interceptors.response.use(res => {
-  console.log('response: ' + JSON.stringify(res.data))
+  //console.log('response: ' + JSON.stringify(res.data))
   const code = res.data.code || 200;
   const msg = res.data.msg || errorCode['default'];
   // if the response type is blob or arraybuffer, then return the data directly

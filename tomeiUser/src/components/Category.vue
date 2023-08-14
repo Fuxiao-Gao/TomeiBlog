@@ -38,8 +38,6 @@
                 </v-card>
             </v-col>
         </v-row>
-        <!-- <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-            @pagination="getList" /> -->
         <v-pagination v-model="queryParams.pageNum" :length="Math.ceil(total / queryParams.pageSize)"
             rounded="0"></v-pagination>
     </v-container>
@@ -105,6 +103,8 @@ export default {
         getList() {
             listBlogs(this.queryParams).then(response => {
                 this.cards = response.rows;
+                console.log(this.categoryID)
+                console.log(response.rows);
                 this.total = response.total;
                 this.loading = false;
                 // get publisherName for eachcard

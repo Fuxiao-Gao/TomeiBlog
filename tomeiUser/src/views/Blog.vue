@@ -61,7 +61,7 @@
                     <v-card-text>
                         <v-container>
                             <v-row>
-                                <v-textarea v-model="content" label="Comment Tomei" required></v-textarea>
+                                <v-textarea v-model="commentParams.content" label="Comment Tomei" required></v-textarea>
                             </v-row>
                         </v-container>
                         <small>*indicates required field</small>
@@ -71,11 +71,8 @@
                         <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
                             Close
                         </v-btn>
-                        <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
+                        <v-btn color="blue-darken-1" variant="text" @click="addComment()">
                             Send
-                        </v-btn>
-                        <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
-                            Save
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -92,11 +89,10 @@ import { getBlogs } from '@/api/blogs';
 import { increLikeCount } from '@/api/blogs';
 import { increSaveCount } from '@/api/blogs';
 import { increCommentCount } from '@/api/blogs';
-import { increCommentsLike } from '@/api/comments';
 import { getUserName } from '@/api/users';
 import { listLikes } from '@/api/likes';
 import { listSaved } from '@/api/saved';
-import { listComments } from '@/api/comments';
+import { listComments, addComments, increCommentsLike } from '@/api/comments';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 export default {
@@ -125,6 +121,11 @@ export default {
             pageNum: 1,
             pageSize: 12,
             blogBelong: null,
+        },
+        commentParams: {
+            content: null,
+            publishUser: null,
+            blogBelong: null
         },
         commentPublishers: {},
         comments: [],
@@ -263,7 +264,9 @@ export default {
                 this.like.userId = localStorage.getItem('userId');
 
                 this.commentLike.userId = localStorage.getItem('userId');
-                
+
+                this.commentParams.publishUser = localStorage.getItem('userId');
+                this.commentParams.blogBelong = this.blog.id;
 
                 //check whether listLikes return an empty list or not
                 listLikes(this.like).then(response => {
@@ -303,6 +306,15 @@ export default {
                 this.comments.forEach(comment => {
                     this.getCommentPublisherName(comment.publishUser);
                 });
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        addComment() {
+            // add a comment
+            increCommentCount(this.commentParams).then(response => {
+                this.getComments();
+                this.dialog = false;
             }).catch((err) => {
                 console.log(err);
             });

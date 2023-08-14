@@ -68,10 +68,11 @@ export function increSaveCount(data) {
   })
 }
 
-export function increCommentCount(id) {
+export function increCommentCount(data) {
   return request({
     url: '/system/blogs/increCommentCount',
-    method: 'put'
+    method: 'put',
+    data: data
   })
 }
 
