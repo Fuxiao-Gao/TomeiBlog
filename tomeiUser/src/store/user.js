@@ -35,6 +35,8 @@ const user = {
                     commit('SET_NAME', res.appUser.username)
                     //console.log("this user is" + JSON.stringify(res))
                     console.log("this user id is " + res.appUser.id)
+                    localStorage.setItem('userId', res.appUser.id)
+                    localStorage.setItem('token', res.appUser.token)
                     commit('SET_ID', res.appUser.id)
                     resolve()
                 }).catch(error => {
@@ -51,7 +53,7 @@ const user = {
                     console.log(res.user)
                     const avatar = (user.profilePic == "" || user.avatar == null) ? require("@/assets/tomei/tomei3.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
                     commit('SET_NAME', user.username)
-                    console.log("this userid is"+ user.id)
+                    console.log("this userid is" + user.id)
                     commit('SET_ID', user.id)
                     commit('SET_AVATAR', avatar)
                     resolve(res)
@@ -79,6 +81,8 @@ const user = {
         FedLogOut({ commit }) {
             return new Promise(resolve => {
                 commit('SET_TOKEN', '')
+                localStorage.removeItem('userId')
+                localStorage.removeItem('token')
                 commit('SET_ID', null)
                 commit('SET_NAME', '')
                 removeToken()

@@ -77,13 +77,11 @@ export default {
             this.$refs.loginForm.validate().then(isValid => {
                 if (isValid) {
                     this.loading = true;
-                    console.log(this.loading);
                     this.$store.dispatch("Login", this.loginForm).then(() => {
                         // if the token exist
                         if (this.$store.state.user.token) {
                              this.$router.push({ path: this.redirect || '/' }).catch(err => { console.error(err) });
                         }
-
                     }).catch(() => {
                         console.log('store dispatch error')
                         this.loading = false;

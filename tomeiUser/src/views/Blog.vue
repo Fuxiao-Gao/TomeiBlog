@@ -151,7 +151,7 @@ export default {
         },
         handleLike() {
             // if the user in store is null, notify the user to relogin
-            if (this.$store.state.user.id == null) {
+            if (localStorage.getItem('userId') == null) {
                 Swal.fire({
                     title: 'System Warning',
                     text: "Please log in to like",
@@ -182,7 +182,7 @@ export default {
         },
         handleCommentLike(commentId) {
             //if the user in store is null, notify the user to relogin
-            if (this.$store.state.user.id == null) {
+            if (localStorage.getItem('userId') == null) {
                 Swal.fire({
                     title: 'System Warning',
                     text: "Please log in to like",
@@ -222,7 +222,7 @@ export default {
         },
         handleSave() {
             // if the user in store is null, notify the user to relogin
-            if (this.$store.state.user.id == null) {
+            if (localStorage.getItem('userId') == null) {
                 Swal.fire({
                     title: 'System Warning',
                     text: "Please log in to like",
@@ -257,13 +257,13 @@ export default {
                 this.getPublisherName();
 
                 this.save.blogId = this.blog.id;
-                this.save.userId = this.$store.state.user.id;
+                this.save.userId = localStorage.getItem('userId');
 
                 this.like.blogId = this.blog.id;
-                this.like.userId = this.$store.state.user.id;
+                this.like.userId = localStorage.getItem('userId');
 
-                this.commentLike.userId = this.$store.state.user.id;
-                console.log("userId" + this.$store.state.user.id)
+                this.commentLike.userId = localStorage.getItem('userId');
+                
 
                 //check whether listLikes return an empty list or not
                 listLikes(this.like).then(response => {

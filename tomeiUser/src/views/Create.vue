@@ -120,9 +120,8 @@ export default {
         this.getCategory();
 
         // get publisherId or ask the user to login
-        console.log("id in store" + this.$store.state.user.id);
-        if (this.$store.state.user.id) {
-            this.form.publisherId = this.$store.state.user.id;
+        if (localStorage.getItem('userId')) {
+            this.form.publisherId = localStorage.getItem('userId');
         } else {
             Swal.fire({
                 title: 'System Warning',
