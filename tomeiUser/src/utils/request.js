@@ -11,7 +11,7 @@ export let isRelogin = { show: false };
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create axios instance
 const request = axios.create({
-  baseURL: 'http://192.168.3.247:8080/',
+  baseURL: process.env.BASE_API, // url = base url + request url
   timeout: 10000
 })
 
@@ -97,8 +97,10 @@ request.interceptors.response.use(res => {
           //log out and redirect to the login
           isRelogin.show = false;
           store.dispatch('LogOut').then(() => {
-          location.href = '/login';
-        })
+            location.href = '/login';
+          })
+        } else {
+          location.href = '/';
         }
       })
     }

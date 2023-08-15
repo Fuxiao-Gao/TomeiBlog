@@ -152,22 +152,7 @@ export default {
         },
         handleLike() {
             // if the user in store is null, notify the user to relogin
-            if (localStorage.getItem('userId') == null) {
-                Swal.fire({
-                    title: 'System Warning',
-                    text: "Please log in to like",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#5C6BC0',
-                    cancelButtonColor: '#80CBC4',
-                    confirmButtonText: 'login'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        //log out and redirect to the login
-                        location.href = '/login';
-                    }
-                })
-            } else if (this.userHasLiked) {
+            if (this.userHasLiked) {
                 // if the user has liked the post, do nothing
                 console.log("user has already liked the post");
                 return;
@@ -183,62 +168,30 @@ export default {
         },
         handleCommentLike(commentId) {
             //if the user in store is null, notify the user to relogin
-            if (localStorage.getItem('userId') == null) {
-                Swal.fire({
-                    title: 'System Warning',
-                    text: "Please log in to like",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#5C6BC0',
-                    cancelButtonColor: '#80CBC4',
-                    confirmButtonText: 'login'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        //log out and redirect to the login
-                        location.href = '/login';
-                    }
-                })
-            } else {
-                this.commentLike.commentId = commentId;
+            this.commentLike.commentId = commentId;
 
-                listLikes(this.commentLike).then(response => {
-                    if (response.total == 0) {
-                        this.userHasLikedComment[commentId] = false;
-                        increCommentsLike(this.commentLike).then(response => {
-                            // refresh the page and retrieve blog info again
-                            this.userHasLikedComment[commentId] = true;
-                            this.getComments();
-                        }).catch((err) => {
-                            console.log(err);
-                        });
-                    } else {
+            listLikes(this.commentLike).then(response => {
+                if (response.total == 0) {
+                    this.userHasLikedComment[commentId] = false;
+                    increCommentsLike(this.commentLike).then(response => {
+                        // refresh the page and retrieve blog info again
                         this.userHasLikedComment[commentId] = true;
-                        console.log("user has already liked the comment");
-                        return;
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }
+                        this.getComments();
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    this.userHasLikedComment[commentId] = true;
+                    console.log("user has already liked the comment");
+                    return;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         },
         handleSave() {
             // if the user in store is null, notify the user to relogin
-            if (localStorage.getItem('userId') == null) {
-                Swal.fire({
-                    title: 'System Warning',
-                    text: "Please log in to like",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#5C6BC0',
-                    cancelButtonColor: '#80CBC4',
-                    confirmButtonText: 'login'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        //log out and redirect to the login
-                        location.href = '/login';
-                    }
-                })
-            } else if (this.userHasSaved) {
+            if (this.userHasSaved) {
                 console.log("user has already saved the post");
                 return;
             } else {
@@ -344,7 +297,6 @@ export default {
         // get the id of the blog
         this.blog.id = Number(this.$route.params.id);
         this.comment.blogBelong = this.blog.id;
-
         // get the details of the blog
         this.getDetail();
         this.getBlog();

@@ -20,7 +20,10 @@ export default defineConfig({
       },
     }),
   ],
-  define: { 'process.env': {} },
+  define: {
+    'process.env': {
+      'BASE_API': 'http://192.168.169.182:8080'
+  } },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -39,3 +42,6 @@ export default defineConfig({
     port: 3000,
   },
 })
+
+
+

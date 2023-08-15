@@ -7,6 +7,7 @@ const user = {
         name: '',
         id: null,
         avatar: '',
+        email: '',
     },
 
     mutations: {
@@ -22,6 +23,9 @@ const user = {
         SET_AVATAR: (state, avatar) => {
             state.avatar = avatar
         },
+        SET_EMAIL: (state, email) => {
+            state.email = email
+        }
     },
     actions: {
         // login
@@ -50,8 +54,6 @@ const user = {
             return new Promise((resolve, reject) => {
                 getInfo().then(res => {
                     const user = res.user
-                    console.log(res.user)
-                    const avatar = (user.profilePic == "" || user.avatar == null) ? require("@/assets/tomei/tomei3.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
                     commit('SET_NAME', user.username)
                     console.log("this userid is" + user.id)
                     commit('SET_ID', user.id)
