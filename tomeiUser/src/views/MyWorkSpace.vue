@@ -24,10 +24,10 @@
             <v-card-text class="caption">
               <v-row class="mt-3 justify-center">
                 <v-col cols="6" sm="4" md="6">
-                  <div>Followers: {{ followers.length }}</div>
+                  <div>followers: {{ followerCount }}</div>
                 </v-col>
                 <v-col cols="6" sm="4" md="6">
-                  <div>Following: {{ following.length }}</div>
+                  <div>Following: {{ followingCount }}</div>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -57,7 +57,7 @@
               </v-row>
             </div>
             <!-- Pagination section -->
-            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5" color="white"></v-pagination>
+            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5"></v-pagination>
           </v-card>
         </v-col>
       </v-row>
@@ -83,7 +83,7 @@
                 </v-card></v-list-item>
             </v-list-item-group>
             <!-- Pagination section -->
-            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5" color="white"></v-pagination>
+            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5"></v-pagination>
           </v-card>
         </v-col>
 
@@ -108,7 +108,7 @@
                   <v-card-subtitle>{{ post.description }}</v-card-subtitle>
                   <v-card-actions>
                     <v-card-actions>
-                      <v-btn color="blue-lighten-5" variant="tonal"  @click="">Remove</v-btn>
+                      <v-btn color="blue-lighten-5" variant="tonal" @click="">Remove</v-btn>
                       <v-btn color="blue-lighten-5" variant="tonal" @click="">Delete</v-btn>
                     </v-card-actions>
                   </v-card-actions>
@@ -116,7 +116,7 @@
               </v-row>
             </div>
             <!-- Pagination section -->
-            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5" color="white"></v-pagination>
+            <v-pagination v-model="postsPage" :length="postsPageCount" class="my-5"></v-pagination>
           </v-card>
         </v-col>
       </v-row>
@@ -132,6 +132,7 @@ import { getBlogs, listBlogs } from '@/api/blogs';
 import { getDetails } from '@/api/details';
 import { listLikes } from '@/api/likes';
 import { listSaved } from '@/api/saved';
+import { listList } from '@/api/list';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 export default {
@@ -151,6 +152,14 @@ export default {
       email: null,
       profilePic: null
     },
+    followerParams: {
+      followeeId: localStorage.getItem('userId'),
+    },
+    followingParams: {
+      followerId: localStorage.getItem('userId'),
+    },
+    followerCount: 0,
+    followingCount: 0,
     postParams: {
       pageNum: 1,
       pageSize: 3,
@@ -199,7 +208,6 @@ export default {
         console.log(err);
       });
     },
-    // get user data from the database
     getUser() {
       getUsers(localStorage.getItem('userId')).then(response => {
         this.user = response.data;
@@ -208,7 +216,6 @@ export default {
       }).catch((err) => {
         console.log(err);
       });
-
     },
     listBlogs() {
       listBlogs(this.postParams).then(response => {
@@ -225,34 +232,116 @@ export default {
         console.log(err);
       });
     },
+    getFollowers() {
+      listList(this.followerParams).then(response => {
+        this.followerCount = response.total;
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    getFollowing() {
+      listList(this.followingParams).then(response => {
+        this.followingCount = response.total;
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    // listSaved() {
+    //   listSaved(this.savedParams).then(response => {
+    //     this.loadingBlog = true;
+    //     this.loadingDetails = true;
+    //     this.saved = response.rows;
+
+    //     //get all the blog
+    //     this.saved.forEach((post) => {
+    //       getBlogs(post.blogId).then(response => {
+    //         this.savedBlog[post.blogId] = response.data;
+    //         this.loadingBlog = false;
+    //       }).catch((err) => {
+    //         console.log(err);
+    //       });
+    //     });
+
+    //     //get all the blog details
+    //     this.saved.forEach((post) => {
+    //       getDetails(post.blogId).then(response => {
+    //         this.savedBlogCovers[post.blogId] = response.data.coverPic;
+    //         this.loadingDetails = false;
+    //       }).catch((err) => {
+    //         console.log(err);
+    //       });
+    //     });
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   });
+    // },
+    listSaved() {
+      this.loadingBlog = true;
+      this.loadingDetails = true;
+
+      listSaved(this.savedParams).then(response => {
+        this.saved = response.rows;
+
+        // Get all the blogs
+        let blogPromises = this.saved.map(post => {
+          return getBlogs(post.blogId).then(response => {
+            this.savedBlog[post.blogId] = response.data;
+          });
+        });
+
+        // Get all the blog details
+        let detailPromises = this.saved.map(post => {
+          return getDetails(post.blogId).then(response => {
+            this.savedBlogCovers[post.blogId] = response.data.coverPic;
+          });
+        });
+
+        // Return combined promises
+        return Promise.all([...blogPromises, ...detailPromises]);
+
+      }).then(() => {
+        this.loadingBlog = false;
+        this.loadingDetails = false;
+
+      }).catch(err => {
+        // Always ensure your loading flags are set to false in case of an error to prevent infinite loaders.
+        this.loadingBlog = false;
+        this.loadingDetails = false;
+        console.log(err);
+      });
+    },
     listSaved() {
       listSaved(this.savedParams).then(response => {
         this.loadingBlog = true;
         this.loadingDetails = true;
         this.saved = response.rows;
 
-        //get all the blog
-        this.saved.forEach((post) => {
-          getBlogs(post.blogId).then(response => {
+        // Get all the blogs
+        let blogPromises = this.saved.map(post => {
+          return getBlogs(post.blogId).then(response => {
             this.savedBlog[post.blogId] = response.data;
-            this.loadingBlog = false;
-          }).catch((err) => {
-            console.log(err);
           });
         });
 
-        //get all the blog details
-        this.saved.forEach((post) => {
-          getDetails(post.blogId).then(response => {
+        // Get all the blog details
+        let detailPromises = this.saved.map(post => {
+          return getDetails(post.blogId).then(response => {
             this.savedBlogCovers[post.blogId] = response.data.coverPic;
-            this.loadingDetails = false;
-          }).catch((err) => {
-            console.log(err);
           });
         });
-      }).catch((err) => {
-        console.log(err);
-      });
+
+        // Merge all promises into one array
+        let allPromises = blogPromises.concat(detailPromises);
+        // Use Promise.all to wait for all promises to resolve
+        return Promise.all(allPromises);
+      })
+        .then(() => {
+          this.loadingBlog = false;
+          this.loadingDetails = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     handleCommentLike(commentId) {
       //if the user in store is null, notify the user to relogin
@@ -297,6 +386,8 @@ export default {
     this.listComments();
     this.listBlogs();
     this.listSaved();
+    this.getFollowers();
+    this.getFollowing();
   },
 }
 </script>
@@ -323,6 +414,7 @@ export default {
   overflow: hidden;
   /* Hide overflow content to ensure clean design */
 }
+
 
 .fixed-min-height-card {
   height: 700px;

@@ -1,8 +1,7 @@
 <template>
     <v-container class="blogs-content">
         <v-row no-gutters style="width: 100%;">
-            <v-col class="ma-1 pa-1" v-for="card in cards" :key="card.id">
-
+            <v-col col="4" class="ma-1 pa-1" v-for="card in cards" :key="card.id">
                 <v-card variant="tonal" class="mx-auto">
                     <v-img :src=covers[card.id] class="align-end"
                         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="200px" cover>
@@ -19,22 +18,6 @@
                         </v-card-text>
                     </v-img>
 
-                    <v-card-actions>
-                        <v-btn size="small" color="white" variant="text" @click="handleLike(card.id)">
-                            <v-icon left>mdi-heart</v-icon>
-                            {{ card.likeCount }}
-                        </v-btn>
-
-                        <v-btn size="small" color="white" variant="text" @click="handleSave(card.id)">
-                            <v-icon left>mdi-bookmark</v-icon>
-                            {{ card.saveCount }}
-                        </v-btn>
-
-                        <v-btn size="small" color="white" variant="text">
-                            <v-icon left>mdi-share-variant</v-icon>
-                            {{ card.commentCount }}
-                        </v-btn>
-                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -47,9 +30,6 @@
 <script>
 import Navbar from '@/components/Navbar.vue';
 import { listBlogs } from '@/api/blogs';
-import { increLikeCount } from '@/api/blogs';
-import { increSaveCount } from '@/api/blogs';
-import { increCommentCount } from '@/api/blogs';
 import { getUserName } from '@/api/users';
 import { getDetails } from '@/api/details.js';
 
@@ -103,8 +83,6 @@ export default {
         getList() {
             listBlogs(this.queryParams).then(response => {
                 this.cards = response.rows;
-                console.log(this.categoryID)
-                console.log(response.rows);
                 this.total = response.total;
                 this.loading = false;
                 // get publisherName for eachcard
@@ -144,32 +122,19 @@ export default {
             }
             return '';
         },
-        handleLike(id) {
-            increLikeCount(id).then(response => {
-                console.log("blogId:" + id);
-                this.getList();
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
-        handleSave(id) {
-            increSaveCount(id).then(response => {
-                this.getList();
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
-        handleComment(id) {
-            increCommentCount(id).then(response => {
-                this.getList();
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
     },
 }
 </script>
 
 
 <!--  -->
-<style scoped></style>
+<style scoped>
+.fixed-card {
+    height: 200px;  /* or any value you find appropriate */
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+</style>

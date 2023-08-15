@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// list all saved posts
+// 查询saved列表
 export function listSaved(query) {
   return request({
     url: '/system/saved/list',
@@ -9,15 +9,15 @@ export function listSaved(query) {
   })
 }
 
-// get saved post
-export function getSaved(userId) {
+// 查询saved详细
+export function getSaved(id) {
   return request({
-    url: '/system/saved/' + userId,
+    url: '/system/saved/' + id,
     method: 'get'
   })
 }
 
-// add saved
+// 新增saved
 export function addSaved(data) {
   return request({
     url: '/system/saved',
@@ -26,7 +26,7 @@ export function addSaved(data) {
   })
 }
 
-// update saved
+// 修改saved
 export function updateSaved(data) {
   return request({
     url: '/system/saved',
@@ -35,10 +35,10 @@ export function updateSaved(data) {
   })
 }
 
-// delete saved
-export function delSaved(userId) {
+// 删除saved
+export function delSaved(id) {
   return request({
-    url: '/system/saved/' + userId,
+    url: '/system/saved/' + id,
     method: 'delete'
   })
 }

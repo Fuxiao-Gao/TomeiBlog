@@ -51,32 +51,22 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <v-carousel v-if="cards.length" :continuous="false" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-square"
-              height="300">
+            <v-carousel v-if="cards.length" :continuous="false" :show-arrows="false" hide-delimiter-background
+              delimiter-icon="mdi-square" height="300">
               <!-- key directive helps vue optimizing its rendering process -->
               <v-carousel-item v-for="card in cards" :key="card.id" contain>
                 <v-card variant="tonal" class="mx-auto">
                   <v-img :src=covers[card.id] class="align-end"
-                    gradient="to top right, rgba(173,216,230,0.8), rgba(58,128,227,0.6)" height="200px" cover>
+                    gradient="to top right, rgba(173,216,230,0.8), rgba(58,128,227,0.6)" height="250px" cover>
                     <router-link :to="`/blog/${card.id}`" style="color: white">
                       <v-card-title>{{ card.title }}</v-card-title></router-link>
+                    <v-card-text>
+                      <v-row justify="end">
+                        <v-col> Created on {{ formatDate(card.createTime) }}</v-col>
+                        <v-col> Last Updated on {{ formatDate(card.updateTime) }}</v-col>
+                      </v-row>
+                    </v-card-text>
                   </v-img>
-                  <v-card-actions>
-                    <v-btn size="small" color="white" variant="text" @click="handleLike(card.id)">
-                      <v-icon left>mdi-heart</v-icon>
-                      {{ card.likeCount }}
-                    </v-btn>
-
-                    <v-btn size="small" color="white" variant="text" @click="handleSave(card.id)">
-                      <v-icon left>mdi-bookmark</v-icon>
-                      {{ card.saveCount }}
-                    </v-btn>
-
-                    <v-btn size="small" color="white" variant="text">
-                      <v-icon left>mdi-share-variant</v-icon>
-                      {{ card.commentCount }}
-                    </v-btn>
-                  </v-card-actions>
                 </v-card>
               </v-carousel-item>
             </v-carousel>
@@ -164,6 +154,12 @@ export default {
       }).catch((err) => {
         console.log(err);
       });
+    },
+    formatDate(datetime) {
+      if (datetime) {
+        return datetime.split(' ')[0];
+      }
+      return '';
     },
   }
 }

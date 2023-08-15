@@ -34,7 +34,7 @@
                 </v-card-actions>
 
                 <!-- comment section -->
-                <div class="d-flex align-center flex-column ma-0">
+                <div class="d-flex align-center flex-column ma-0 comment-section">
                     <div class="text-h5 ma-2" style="color: rgba(0,0,0,0.5);">Comment Section</div>
                     <!-- display each message here -->
                     <div class="comment ma-2" v-for="commentEach in comments" :key="commentEach.id">
@@ -307,4 +307,11 @@ export default {
     }
 }
 </script>
-<style></style>
+
+
+<style scoped>
+.comment-section {
+    min-height: 400px;  /* or any value you find appropriate */
+}
+
+</style>
