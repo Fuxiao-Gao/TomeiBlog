@@ -24,6 +24,13 @@ export function getUserName(id) {
   })
 }
 
+export function getUserByName(username) {
+  return request({
+    url: '/system/users/getByName/' + username,
+    method: 'get'
+  })
+}
+
 
 export function addUsers(data) {
   return request({

@@ -15,8 +15,8 @@
                                     name="input-10-1" label="password" hint="At least 8 characters" counter
                                     @click:append="show1 = !show1"></v-text-field>
                                 <div class="d-flex justify-space-between">
-                                    <router-link to="/forgot" class="text-white">Forget your
-                                        password?</router-link>
+                                    <!-- <router-link to="/forgot" class="text-white">Forget your
+                                        password?</router-link> -->
                                     <router-link to="/register" class="text-white">Sign up now</router-link>
                                 </div>
                                 <v-btn :loading="loading" type="submit" block color="grey-darken-4" class="my-2"
@@ -75,7 +75,7 @@ export default {
     methods: {
         handleLogin() {
             this.$refs.loginForm.validate().then(isValid => {
-                if (isValid) {
+                if (isValid.valid) {
                     this.loading = true;
                     this.$store.dispatch("Login", this.loginForm).then(() => {
                         // if the token exist

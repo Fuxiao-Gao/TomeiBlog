@@ -34,7 +34,7 @@ import { getUserName } from '@/api/users';
 import { getDetails } from '@/api/details.js';
 
 export default {
-    name: 'Travel',
+    name: 'Category',
     props: ['categoryID'],
     components: {
         Navbar,

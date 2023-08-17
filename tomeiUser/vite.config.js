@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   define: {
     'process.env': {
-      'BASE_API': 'http://192.168.3.247:8080'
+      'BASE_API': 'http://192.168.169.182:8080'
   } },
   resolve: {
     alias: {
