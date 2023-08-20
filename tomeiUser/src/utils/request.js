@@ -9,9 +9,11 @@ import 'sweetalert2/src/sweetalert2.scss'
 export let isRelogin = { show: false };
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+
+console.log(import.meta.env)
 // create axios instance
 const request = axios.create({
-  baseURL: process.env.BASE_API, // url = base url + request url
+  baseURL: import.meta.env.VITE_API_BASE_URL, // url = base url + request url
   timeout: 10000
 })
 

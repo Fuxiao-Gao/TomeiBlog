@@ -96,7 +96,7 @@ export default {
         },
         // redirect to the backend to do the third party authentication
         onSignIn(googleUser) {
-            location.href = 'http://192.168.169.182:8080/system/thirdLogin/sendRedirect';
+            location.href = import.meta.env.VITE_APP_BASE_API + '/system/thirdLogin/sendRedirect';
         },
     },
 

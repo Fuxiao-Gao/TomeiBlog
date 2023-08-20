@@ -5,10 +5,10 @@
   "author": "fuxiao gao",
   "license": "MIT",
   "scripts": {
-    "dev": "export NODE_OPTIONS=--openssl-legacy-provider & vue-cli-service serve",
-    "build:prod": "export NODE_OPTIONS=--openssl-legacy-provider & vue-cli-service build",
-    "build:stage": "export NODE_OPTIONS=--openssl-legacy-provider & vue-cli-service build --mode staging",
-    "preview": "export NODE_OPTIONS=--openssl-legacy-provider & node build/index.js --preview",
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build:prod": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "build:stage": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --mode staging",
+    "preview": "export NODE_OPTIONS=--openssl-legacy-provider && node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src"
   },
   "husky": {
