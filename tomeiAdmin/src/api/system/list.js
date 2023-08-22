@@ -9,7 +9,7 @@ export function listList(query) {
   })
 }
 
-// get list
+
 export function getList(followerId) {
   return request({
     url: '/system/list/' + followerId,
@@ -17,7 +17,7 @@ export function getList(followerId) {
   })
 }
 
-// add list
+
 export function addList(data) {
   return request({
     url: '/system/list',
@@ -26,7 +26,7 @@ export function addList(data) {
   })
 }
 
-// update list
+
 export function updateList(data) {
   return request({
     url: '/system/list',
@@ -35,7 +35,7 @@ export function updateList(data) {
   })
 }
 
-// delete list
+
 export function delList(followerId) {
   return request({
     url: '/system/list/' + followerId,

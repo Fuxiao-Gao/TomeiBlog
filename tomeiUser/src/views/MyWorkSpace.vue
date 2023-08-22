@@ -42,7 +42,8 @@
             <div v-for="post in posts" :key="post.id">
               <v-row>
                 <v-col cols="6" class="mt-2 pl-2">
-                  <v-img :src="blogCovers[post.id]" class="ma-3 uniform-image"></v-img>
+                  <v-img :src="blogCovers[post.id]" gradient="to top right, rgba(150,180,200,.5), rgba(190,210,240,.7)"
+                    class="ma-3 uniform-image rounded-corners"></v-img>
                 </v-col>
                 <v-col cols="6" class="mr-0">
                   <router-link :to="`/blog/${post.id}`" style="color: white">
@@ -211,8 +212,8 @@ export default {
     getUser() {
       getUsers(localStorage.getItem('userId')).then(response => {
         this.user = response.data;
-        this.user.profilePic = this.user.profilePic ? process.env.BASE_API + this.user.profilePic : '../assets/tomei/tomei1.jpg';
-        console.log(this.user.profilePic)
+        this.user.profilePic = this.user.profilePic ? import.meta.env.VITE_API_BASE_URL + this.user.profilePic : '../assets/tomei/tomei1.jpg';
+        //console.log(this.user.profilePic)
       }).catch((err) => {
         console.log(err);
       });
@@ -404,7 +405,7 @@ export default {
 }
 
 .rounded-corners {
-  border-radius: 7px;
+  border-radius: 4px;
   /* Adjust this value as needed */
 }
 

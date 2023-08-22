@@ -16,22 +16,22 @@
 			<el-radio v-model='radioValue' :label="3">
 				cycle from
 				<el-input-number v-model='cycle01' :min="1" :max="30" /> -
-				<el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 2" :max="31" /> 日
+				<el-input-number v-model='cycle02' :min="cycle01 ? cycle01 + 1 : 2" :max="31" /> 
 			</el-radio>
 		</el-form-item>
 
 		<el-form-item>
 			<el-radio v-model='radioValue' :label="4">
 				from
-				<el-input-number v-model='average01' :min="1" :max="30" /> 号开始，每
-				<el-input-number v-model='average02' :min="1" :max="31 - average01 || 1" /> 日执行一次
+				<el-input-number v-model='average01' :min="1" :max="30" />  every
+				<el-input-number v-model='average02' :min="1" :max="31 - average01 || 1" /> execute once
 			</el-radio>
 		</el-form-item>
 
 		<el-form-item>
 			<el-radio v-model='radioValue' :label="5">
 				per month
-				<el-input-number v-model='workday' :min="1" :max="31" /> 号最近的那个工作日
+				<el-input-number v-model='workday' :min="1" :max="31" /> day of the week
 			</el-radio>
 		</el-form-item>
 
@@ -44,7 +44,7 @@
 		<el-form-item>
 			<el-radio v-model='radioValue' :label="7">
 				specify
-				<el-select clearable v-model="checkboxList" placeholder="可多选" multiple style="width:100%">
+				<el-select clearable v-model="checkboxList" placeholder="multiple allowed" multiple style="width:100%">
 					<el-option v-for="item in 31" :key="item" :value="item">{{item}}</el-option>
 				</el-select>
 			</el-radio>

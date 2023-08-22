@@ -1,15 +1,15 @@
 <template>
     <v-container class="blogs-content">
-        <v-row no-gutters style="width: 100%;">
-            <v-col col="4" class="ma-1 pa-1" v-for="card in cards" :key="card.id">
-                <v-card variant="tonal" class="mx-auto">
-                    <v-img :src=covers[card.id] class="align-end"
+        <v-row>
+            <v-col cols="12" sm="6" md="4" v-for="card in cards" :key="card.id">
+                <v-card variant="tonal" class="mx-auto" style="height: 200px;"> <!-- example fixed height -->
+                    <v-img :src="covers[card.id]" class="align-end"
                         gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="200px" cover>
-
-                        <!-- when clicked on the card title, the user is bring to the blog associated with that title -->
                         <router-link :to="`/blog/${card.id}`" style="color: white">
-                            <v-card-title>{{ card.title }}</v-card-title></router-link>
-                        <v-card-subtitle> Published by {{ publishers[card.publisherId] || 'Loading...' }}</v-card-subtitle>
+                            <v-card-title class="text-truncate"
+                                style="max-width: 90%; white-space: nowrap;">{{ card.title }}</v-card-title>
+                        </router-link>
+
                         <v-card-text>
                             <v-row justify="end">
                                 <v-col> Created on {{ formatDate(card.createTime) }}</v-col>
@@ -17,7 +17,6 @@
                             </v-row>
                         </v-card-text>
                     </v-img>
-
                 </v-card>
             </v-col>
         </v-row>
@@ -63,26 +62,30 @@ export default {
     watch: {
         categoryID(newCategoryId) {
             this.queryParams.categoryId = newCategoryId;
+            this.getList();
+            //  call getList() whenever the categoryID changes
         },
         'queryParams.pageNum': {
             handler: function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     this.getList();
                 }
+                // remove immediate: true, this means that the watcher will not be invoked upon component creation
             },
-            immediate: true
         }
     },
     created() {
-        if (this.categoryID) {
-            this.queryParams.categoryId = this.categoryID;
-        }
+        // this will only be called one time
+        this.queryParams.categoryId = this.categoryID;
+        console.log(this.categoryID)
         this.getList();
     },
     methods: {
         getList() {
             listBlogs(this.queryParams).then(response => {
+                console.log(this.queryParams)
                 this.cards = response.rows;
+                console.log(this.cards)
                 this.total = response.total;
                 this.loading = false;
                 // get publisherName for eachcard
@@ -130,11 +133,11 @@ export default {
 <!--  -->
 <style scoped>
 .fixed-card {
-    height: 200px;  /* or any value you find appropriate */
+    height: 200px;
+    /* or any value you find appropriate */
     width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-
 </style>
