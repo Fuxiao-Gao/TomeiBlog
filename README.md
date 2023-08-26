@@ -51,11 +51,8 @@ Unfortunately, the backend code is not open to the public due to security cause.
 Experience the tranquility and candidness of our tomei-inspired platform:
 website in deployment: https://tomeipublic.tomeiblog.net
 
-https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/8f482ed9-3779-49a9-a066-f45456b63034
-
-
+a video demo as well : )
 https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/39763795-250b-4e5d-830b-63a4c1dd2655
-
 
 
 ## 📌 Conclusion
