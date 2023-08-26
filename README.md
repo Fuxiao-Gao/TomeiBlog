@@ -66,4 +66,3 @@ As you traverse our tomei-inspired pages, we invite you to immerse yourself in t
 
 ---
 
-**Note**: Replace placeholders like `link-to-demo-image-or-gif` and `your-link-here` with the actual links.
