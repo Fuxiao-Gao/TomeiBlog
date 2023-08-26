@@ -17,7 +17,7 @@ At the heart of our digital space lies the essence of "tomei" — the art of tra
 
 _"Just as "tomei" beautifully signifies clarity without opacity, our blog seeks to weave stories, thoughts, and ideas in a manner that's both transparent and elegant."_
 
-We draw our inspiration from the visual and philosophical aspects of the Japanese art of translucence. The aesthetic of our website reflects the purity of expression we aim to encapsulate. Every element, from visual components to the underlying technology, resonates with the idea that our content offers a crystal-clear view into its soul. This isn't merely a blog; it's a celebration of clarity, simplicity, and the delicate balance between revelation and concealment.
+We draw our inspiration from the visual and philosophical aspects of the art of translucence. The aesthetic of our website reflects the purity of expression we aim to encapsulate. Every element, from visual components to the underlying technology, resonates with the idea that our content offers a crystal-clear view into its soul. This isn't merely a blog; it's a celebration of clarity, simplicity, and the delicate balance between revelation and concealment.
 
 ## 🛠️ Tech Stack
 
