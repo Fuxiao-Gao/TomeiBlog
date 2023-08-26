@@ -1,6 +1,8 @@
 # TOMEI Blog System
 
-At the heart of our digital space lies the essence of "tomei" — the Japanese art of translucence. Inspired by the unique style of 透明愛好家 on YouTube, the TOMEI Blog System embodies the spirit of clarity without opacity.
+At the heart of our digital space lies the essence of "tomei" — the art of translucence. Inspired by the unique style of 透明愛好家 on YouTube, the TOMEI Blog System embodies the spirit of clarity without opacity.
+
+
 ![home](https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/e84fbee0-25be-42de-be14-d8b8b17327ab)
 ![about](https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/7d0664c7-db9c-44d4-bede-9c91738169a1)
 ![category](https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/2c196e21-fc66-4a1e-8658-c41d87ba5f6e)
@@ -48,6 +50,7 @@ The TOMEI Blog System is developed in an isolated Docker environment and seamles
 Unfortunately, the backend code is not open to the public due to security cause.
 Experience the tranquility and candidness of our tomei-inspired platform:
 (now the website is on virtual machine, I have not yet gotten a domain name for it yet)
+
 https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/8f482ed9-3779-49a9-a066-f45456b63034
 
 
