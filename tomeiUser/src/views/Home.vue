@@ -57,7 +57,7 @@
               <v-carousel-item v-for="card in cards" :key="card.id" contain>
                 <v-card variant="tonal" class="mx-auto">
                   <v-img :src=covers[card.id] class="align-end"
-                    gradient="to top right, rgba(173,216,230,0.8), rgba(58,128,227,0.6)" height="250px" cover>
+                    gradient="to top right, rgba(173,216,230,0.8), rgba(58,128,227,0.6)" height="200px" cover>
                     <router-link :to="`/blog/${card.id}`" style="color: white">
                       <v-card-title>{{ card.title }}</v-card-title></router-link>
                     <v-card-text>
@@ -67,6 +67,22 @@
                       </v-row>
                     </v-card-text>
                   </v-img>
+                  <v-card-actions>
+                    <div class="action-item">
+                      <v-icon size="16">mdi-heart</v-icon>
+                      <span class="count-text">{{ card.likeCount }}</span>
+                    </div>
+
+                    <div class="action-item">
+                      <v-icon size="16">mdi-bookmark</v-icon>
+                      <span class="count-text">{{ card.saveCount }}</span>
+                    </div>
+
+                    <div class="action-item">
+                      <v-icon size="16">mdi-share-variant</v-icon>
+                      <span class="count-text">{{ card.commentCount }}</span>
+                    </div>
+                  </v-card-actions>
                 </v-card>
               </v-carousel-item>
             </v-carousel>
@@ -194,5 +210,20 @@ export default {
 }
 </style>
 
+<style>
+.action-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20px;
+}
 
-<style></style>
+.action-item:first-child {
+  margin-left: 10px;
+}
+
+.count-text {
+  font-size: 14px;
+  /* Adjust to your preference */
+}
+</style>
+

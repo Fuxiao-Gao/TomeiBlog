@@ -46,27 +46,13 @@
 
                         <v-textarea class="pa-5" v-model="form.content" label="Content" required></v-textarea>
 
-                        <v-row align="center">
-                            <v-col cols="12" md="8">
-                                <v-text-field class="pa-5" v-model="form.coverPic" prepend-icon="mdi-camera"
-                                    label="Image URL" placeholder="Enter your image URL" required>
-                                </v-text-field>
-                            </v-col>
+                        <!-- File input -->
+                        <v-file-input label="Upload Image" prepend-icon="mdi-camera" @change="onFileChange($event)"
+                            v-model="file" required></v-file-input>
 
-                            <v-col cols="12" md="4" class="text-center mb-2">
-                                <v-btn @click="showImage">Confirm</v-btn>
-                            </v-col>
+                        <!-- Image preview -->
+                        <v-img v-if="imageUrl" :src="imageUrl" max-height="200" class="mb-2"></v-img>
 
-                            <!-- Loading spinner -->
-                            <v-col v-if="isLoading" cols="12" class="text-center">
-                                <v-progress-circular indeterminate></v-progress-circular>
-                            </v-col>
-                        </v-row>
-
-
-                        <div v-if="displayImage">
-                            <img :src="form.coverPic" alt="Uploaded Image" width="300">
-                        </div>
                         <v-combobox class="pa-5" v-model="categoryName" :rules="createRules" :items="categoryNames"
                             item-text="text" item-value="value" density="compact" label="Category" required></v-combobox>
 
@@ -88,13 +74,16 @@ import { listCategory } from '@/api/category';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import { getUsers } from '@/api/users';
+import { uploadImg } from '../api/upload';
 import { addAll } from '@/api/blogs';
 export default {
     name: 'Create',
     data: () => ({
         title: '',
         loading: true,
-        isLoading: false,
+        file: null,
+        formData: null,
+        imageUrl: null,
         categoryName: "",
         form: {
             publisherId: '',
@@ -148,60 +137,75 @@ export default {
             listCategory(this.queryParams).then(response => {
                 this.categoryList = response.rows;
                 this.loading = false;
-                console.log(this.categoryList);
+                //console.log(this.categoryList);
             });
         },
         submit() {
-            if (this.$refs.form.validate()) {
+            this.$refs.form.validate().then(isValid => {
+                if (isValid.valid) { } else {
+                    
+                }
+                // get the profile picture image
+                uploadImg(this.formData).then(res => {
+                    this.form.coverPic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
+                    //set the form.categoryId 
+                    this.form.categoryId = this.categoryList.find(category => category.name === this.categoryName).id;
 
-                //set the form.categoryId 
-                this.form.categoryId = this.categoryList.find(category => category.name === this.categoryName).id;
-
-                console.log(this.form);
-                // form is valid, do the submit operation
-                addAll(this.form).then(response => {
+                    // console.log(this.form);
+                    // form is valid, do the add the blog post
+                    addAll(this.form).then(response => {
                         Swal.fire({
-                        title: 'Your post is created',
-                        text: "do you want to stay?",
-                        icon: 'success',
-                        showCancelButton: true,
-                        confirmButtonColor: '#5C6BC0',
-                        confirmButtonText: 'stay',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // refresh the page
-                            location.reload();
-                        } else {
-                             this.$router.push('/categories');
-                        }
-                    })
-                });
+                            title: 'Your post is created',
+                            text: "do you want to stay?",
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#5C6BC0',
+                            confirmButtonText: 'stay',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // refresh the page
+                                location.reload();
+                            } else {
+                                this.$router.push('/categories');
+                            }
+                        })
+                    });
+                }).catch(err => {
+                    console.log("error during uploading image", err);
+
+                    // Ensure the error message is a string before splitting
+                    let errorMessage = err.message ? err.message : String(err);
+                    let truncatedError = errorMessage.split(';')[0];
+
+                    Swal.fire({
+                        icon: 'error',
+                        text: truncatedError,
+                    });
+                })
+            })
+        },
+        onFileChange(event) {
+            // console.log(this.file)
+            // If you have an input field of type file in your form, 
+            //FormData can capture the selected files easily, making it a good choice for file uploads:
+            this.formData = new window.FormData();
+            this.formData.append('file', this.file[0]);
+
+            // genrate the image url for preview
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                this.file = input.files[0];
+
+                const reader = new FileReader();
+                reader.readAsDataURL(this.file);
+                reader.onload = (e) => {
+                    this.imageUrl = e.target.result;
+                };
+                reader.onerror = (error) => {
+                    console.error('Error reading file:', error);
+                };
             }
-        },
-        async showImage() {
-            this.isLoading = true; // Start loading
-            this.displayImage = false; // Initially, hide the image
-
-            // Give the browser a moment to start the loading process
-            await this.$nextTick();
-
-            const image = new Image();
-            image.src = this.form.coverPic;
-
-            image.onload = () => {
-                this.displayImage = true;
-                this.isLoading = false; // Stop loading
-            };
-
-            image.onerror = () => {
-                this.isLoading = false; // Stop loading
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The image URL is invalid or the image failed to load.',
-                });
-            };
-        },
+        }
     },
     computed: {
         categoryNames() {

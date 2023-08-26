@@ -42,8 +42,7 @@
             <div v-for="post in posts" :key="post.id">
               <v-row>
                 <v-col cols="6" class="mt-2 pl-2">
-                  <v-img :src="blogCovers[post.id]" gradient="to top right, rgba(150,180,200,.5), rgba(190,210,240,.7)"
-                    class="ma-3 uniform-image rounded-corners"></v-img>
+                  <v-img :src="blogCovers[post.id]" class="ma-3 uniform-image rounded-corners"></v-img>
                 </v-col>
                 <v-col cols="6" class="mr-0">
                   <router-link :to="`/blog/${post.id}`" style="color: white">
@@ -52,7 +51,7 @@
                   <v-card-subtitle>created on {{ formatDate(post.createTime) }}</v-card-subtitle>
                   <v-card-actions>
                     <v-btn color="blue-lighten-4" variant="tonal" @click="">Edit</v-btn>
-                    <v-btn color="blue-lighten-4" variant="tonal" @click="">Delete</v-btn>
+                    <v-btn color="blue-lighten-4" variant="tonal" @click="handleDeletePost(post.id)">Delete</v-btn>
                   </v-card-actions>
                 </v-col>
               </v-row>
@@ -99,7 +98,7 @@
             <div v-else v-for="post in saved" :key="post.blogId">
               <v-row>
                 <v-col cols="6">
-                  <v-img :src="savedBlogCovers[post.blogId]" class="ma-3 uniform-image"></v-img>
+                  <v-img :src="savedBlogCovers[post.blogId]" class="ma-3 uniform-image rounded-corners"></v-img>
                 </v-col>
                 <v-col cols="6">
                   <router-link :to="`/blog/${post.blogId}`" style="color: white">
@@ -110,7 +109,7 @@
                   <v-card-actions>
                     <v-card-actions>
                       <v-btn color="blue-lighten-5" variant="tonal" @click="">Remove</v-btn>
-                      <v-btn color="blue-lighten-5" variant="tonal" @click="">Delete</v-btn>
+                      <v-btn color="blue-lighten-5" variant="tonal" @click="handleDeleteSaved(post.blogId)">Delete</v-btn>
                     </v-card-actions>
                   </v-card-actions>
                 </v-col>
@@ -134,8 +133,9 @@ import { getDetails } from '@/api/details';
 import { listLikes } from '@/api/likes';
 import { listSaved } from '@/api/saved';
 import { listList } from '@/api/list';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import { delBlogs } from '@/api/blogs';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 export default {
   name: 'account',
   components: {
@@ -164,7 +164,7 @@ export default {
     postParams: {
       pageNum: 1,
       pageSize: 3,
-      publishUser: localStorage.getItem('userId'),
+      publisherId: localStorage.getItem('userId'),
     },
     posts: [],
     blogTitles: {},
@@ -219,19 +219,22 @@ export default {
       });
     },
     listBlogs() {
-      listBlogs(this.postParams).then(response => {
-        this.posts = response.rows;
-        //get all the blog details
-        this.posts.forEach((post) => {
-          getDetails(post.id).then(response => {
-            this.blogCovers[post.id] = response.data.coverPic;
-          }).catch((err) => {
-            console.log(err);
+      // check if the value is not null
+      if (this.postParams.publisherId) {
+        listBlogs(this.postParams).then(response => {
+          this.posts = response.rows;
+          //get all the blog details
+          this.posts.forEach((post) => {
+            getDetails(post.id).then(response => {
+              this.blogCovers[post.id] = response.data.coverPic;
+            }).catch((err) => {
+              console.log(err);
+            });
           });
+        }).catch((err) => {
+          console.log(err);
         });
-      }).catch((err) => {
-        console.log(err);
-      });
+      }
     },
     getFollowers() {
       listList(this.followerParams).then(response => {
@@ -247,35 +250,14 @@ export default {
         console.log(err);
       });
     },
-    // listSaved() {
-    //   listSaved(this.savedParams).then(response => {
-    //     this.loadingBlog = true;
-    //     this.loadingDetails = true;
-    //     this.saved = response.rows;
-
-    //     //get all the blog
-    //     this.saved.forEach((post) => {
-    //       getBlogs(post.blogId).then(response => {
-    //         this.savedBlog[post.blogId] = response.data;
-    //         this.loadingBlog = false;
-    //       }).catch((err) => {
-    //         console.log(err);
-    //       });
-    //     });
-
-    //     //get all the blog details
-    //     this.saved.forEach((post) => {
-    //       getDetails(post.blogId).then(response => {
-    //         this.savedBlogCovers[post.blogId] = response.data.coverPic;
-    //         this.loadingDetails = false;
-    //       }).catch((err) => {
-    //         console.log(err);
-    //       });
-    //     });
-    //   }).catch((err) => {
-    //     console.log(err);
-    //   });
-    // },
+    handleDeletePost(blogId) {
+      delBlogs(blogId).then(response => {
+        // refresh the page and retrieve blog info again
+        this.listBlogs();
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
     listSaved() {
       this.loadingBlog = true;
       this.loadingDetails = true;

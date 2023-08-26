@@ -78,7 +78,7 @@ export default {
                             // get the profile picture image
                             uploadImg(this.formData).then(res => {
                             
-                               this.registerForm.profilePic = res.url.replace(process.env.BASE_API, '');
+                               this.registerForm.profilePic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
                                 // add the user
                                 addUsers(this.registerForm).then(res => {
                                     Swal.fire({
@@ -110,10 +110,13 @@ export default {
             })
         },
         onFileChange(event) {
-            console.log(this.file)
+            // console.log(this.file)
+            // If you have an input field of type file in your form, 
+            //FormData can capture the selected files easily, making it a good choice for file uploads:
             this.formData = new window.FormData();
             this.formData.append('file', this.file[0]);
 
+            // genrate the image url for preview
             const input = event.target;
             if (input.files && input.files[0]) {
                 this.file = input.files[0];

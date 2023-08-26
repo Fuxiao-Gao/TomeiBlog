@@ -4,7 +4,7 @@
             <v-col cols="12" sm="6" md="4" v-for="card in cards" :key="card.id">
                 <v-card variant="tonal" class="mx-auto" style="height: 200px;"> <!-- example fixed height -->
                     <v-img :src="covers[card.id]" class="align-end"
-                        gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="200px" cover>
+                        gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.7)" height="150px" cover>
                         <router-link :to="`/blog/${card.id}`" style="color: white">
                             <v-card-title class="text-truncate"
                                 style="max-width: 90%; white-space: nowrap;">{{ card.title }}</v-card-title>
@@ -17,6 +17,22 @@
                             </v-row>
                         </v-card-text>
                     </v-img>
+                    <v-card-actions>
+                        <div class="action-item">
+                            <v-icon size="16">mdi-heart</v-icon>
+                            <span class="count-text">{{ card.likeCount }}</span>
+                        </div>
+
+                        <div class="action-item">
+                            <v-icon size="16">mdi-bookmark</v-icon>
+                            <span class="count-text">{{ card.saveCount }}</span>
+                        </div>
+
+                        <div class="action-item">
+                            <v-icon size="16">mdi-share-variant</v-icon>
+                            <span class="count-text">{{ card.commentCount }}</span>
+                        </div>
+                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -139,5 +155,22 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+</style>
+
+<style>
+.action-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.action-item:first-child {
+    margin-left: 10px;
+}
+
+.count-text {
+    font-size: 14px;
+    /* Adjust to your preference */
 }
 </style>

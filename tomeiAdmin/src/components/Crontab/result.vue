@@ -1,11 +1,11 @@
 <template>
 	<div class="popup-result">
-		<p class="title">最近5次运行时间</p>
+		<p class="title">Last 5 operating hours</p>
 		<ul class="popup-result-scroll">
 			<template v-if='isShow'>
 				<li v-for='item in resultList' :key="item">{{item}}</li>
 			</template>
-			<li v-else>计算结果中...</li>
+			<li v-else>computing</li>
 		</ul>
 	</div>
 </template>
@@ -23,12 +23,11 @@ export default {
 	},
 	name: 'crontab-result',
 	methods: {
-		// 表达式值变化时，开始去计算结果
 		expressionChange() {
 
-			// 计算开始-隐藏结果
+			// Calculation start - hide results
 			this.isShow = false;
-			// 获取规则数组[0秒、1分、2时、3日、4月、5星期、6年]
+			// Get rules array [0 seconds, 1 minute, 2 hours, 3 days, 4 months, 5 weeks, 6 years]
 			let ruleArr = this.$options.propsData.ex.split(' ');
 			// 用于记录进入循环的次数
 			let nums = 0;

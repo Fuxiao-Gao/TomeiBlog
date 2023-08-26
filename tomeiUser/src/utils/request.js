@@ -10,7 +10,7 @@ export let isRelogin = { show: false };
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
-console.log(import.meta.env)
+//console.log(import.meta.env)
 // create axios instance
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL, // url = base url + request url
