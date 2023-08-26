@@ -49,7 +49,7 @@ The TOMEI Blog System is developed in an isolated Docker environment and seamles
 ## 🌟 Demo
 Unfortunately, the backend code is not open to the public due to security cause.
 Experience the tranquility and candidness of our tomei-inspired platform:
-(now the website is on virtual machine, I have not yet gotten a domain name for it yet)
+website in deployment: https://tomeipublic.tomeiblog.net
 
 https://github.com/Fuxiao-Gao/TomeiBlog-frontend/assets/116308835/8f482ed9-3779-49a9-a066-f45456b63034
 
