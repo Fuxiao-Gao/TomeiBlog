@@ -47,7 +47,7 @@ Keeping true to the tomei ideology, every visual component you encounter is desi
 The TOMEI Blog System is developed in an isolated Docker environment and seamlessly deployed on Microsoft Azure's virtual machine, harnessing its IaaS capabilities. It's served through the efficient Nginx server, ensuring swift load times and reliable performance.
 
 ## 🌟 Demo
-Unfortunately, the backend code is not open to the public due to security cause.
+**Unfortunately, the backend code is not open to the public due to security conerns**
 Experience the tranquility and candidness of our tomei-inspired platform: https://tomeipublic.tomeiblog.net
 
 a video demo as well : )
