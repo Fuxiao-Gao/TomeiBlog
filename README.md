@@ -48,8 +48,7 @@ The TOMEI Blog System is developed in an isolated Docker environment and seamles
 
 ## 🌟 Demo
 Unfortunately, the backend code is not open to the public due to security cause.
-Experience the tranquility and candidness of our tomei-inspired platform:
-website in deployment: https://tomeipublic.tomeiblog.net
+Experience the tranquility and candidness of our tomei-inspired platform: https://tomeipublic.tomeiblog.net
 
 a video demo as well : )
 
