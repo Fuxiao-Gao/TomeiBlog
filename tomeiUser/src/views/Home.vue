@@ -136,7 +136,6 @@ export default {
     covers: [],
     PersonalItems: [
       { title: 'My WorkSpace', link: "/myworkspace" },
-      { title: 'Messages', link: "/messages" },
     ],
     queryPartams: {
       pageNum: 1,

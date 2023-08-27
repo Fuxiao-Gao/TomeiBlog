@@ -12,7 +12,7 @@
                         hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
 
                     <!-- File input -->
-                    <v-file-input label="Upload Image" prepend-icon="mdi-camera" @change="onFileChange($event)"
+                    <v-file-input label="Upload Profile Picture" prepend-icon="mdi-camera" @change="onFileChange($event)"
                         v-model="file"></v-file-input>
 
                     <!-- Image preview -->
@@ -77,8 +77,11 @@ export default {
                         } else {
                             // get the profile picture image
                             uploadImg(this.formData).then(res => {
-                            
-                               this.registerForm.profilePic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
+                                const startIndex = res.url.indexOf('/profile');
+                                this.registerForm.profilePic = res.url.substring(startIndex);
+                                
+
+                                // this.registerForm.profilePic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
                                 // add the user
                                 addUsers(this.registerForm).then(res => {
                                     Swal.fire({

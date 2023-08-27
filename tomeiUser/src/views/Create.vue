@@ -124,7 +124,9 @@ export default {
                 if (result.isConfirmed) {
                     //log out and redirect to the login
                     location.href = '/login';
-
+                } else {
+                    // redirect to the home page
+                    this.$router.push('/');
                 }
             })
         }
@@ -147,7 +149,10 @@ export default {
                 }
                 // get the profile picture image
                 uploadImg(this.formData).then(res => {
-                    this.form.coverPic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
+                    const startIndex = res.url.indexOf('/profile');
+                    this.form.coverPic = res.url.substring(startIndex);
+
+                    // this.form.coverPic = res.url.replace(import.meta.env.VITE_API_BASE_URL, '');
                     //set the form.categoryId 
                     this.form.categoryId = this.categoryList.find(category => category.name === this.categoryName).id;
 

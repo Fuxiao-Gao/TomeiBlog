@@ -53,7 +53,6 @@ export default {
     ],
     PersonalItems: [
       { title: 'My WorkSpace', link: "/myworkspace" },
-      { title: 'Messages', link: "/messages" },
     ],
   }),
 }
